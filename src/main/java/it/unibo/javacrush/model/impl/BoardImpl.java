@@ -39,4 +39,10 @@ public class BoardImpl implements Board {
         throw new UnsupportedOperationException("Unimplemented method 'getCols'");
     }
 
+    @Override
+    public Cell getCellAt(Position pos) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCellAt'");
+    }
+
 }
