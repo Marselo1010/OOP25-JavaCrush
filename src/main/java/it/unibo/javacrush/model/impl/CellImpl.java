@@ -5,10 +5,19 @@ import it.unibo.javacrush.model.api.Cell;
 
 public class CellImpl implements Cell{
 
+    private final CellType type;
+
+    public CellImpl(CellType type) {
+        this.type = type;
+    }
+
     @Override
     public CellType getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
+        return this.type;
+    }
+
+    public String toString() {
+           return "Cell[" + this.type + "]";
     }
 
 }
