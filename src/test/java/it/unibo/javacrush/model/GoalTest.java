@@ -59,7 +59,7 @@ public class GoalTest {
     void testAddProgress() {
         this.goal.addProgress(PROGRESS_TARGET);
 
-        assertTrue(this.goal.getCurrentAmount() != INITIAL_TARGET);
+        assertTrue(this.goal.getCurrentAmount() != 0);
         assertEquals(PROGRESS_TARGET, this.goal.getCurrentAmount());
     }
 
