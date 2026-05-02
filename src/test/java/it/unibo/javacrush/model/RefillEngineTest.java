@@ -26,14 +26,14 @@ public class RefillEngineTest {
     @Test
     public void testRefill() {
         for (int i = 0; i < COLS; i++) {
-            assertTrue(board.getCellAt(new Position(0, i)).isEmpty(), "The cell should be empty before refill");
+            assertTrue(board.getCellAt(new Position(i, 0)).isEmpty(), "The cell should be empty before refill");
         }
 
         boolean changed = refillEngine.refill(board);
         assertTrue(changed, "The refill method should return true if the board was changed");
 
         for (int i = 0; i < COLS; i++) {
-            assertTrue(board.getCellAt(new Position(0, i)).isPresent(), "The cell should be filled after refill");
+            assertTrue(board.getCellAt(new Position(i, 0)).isPresent(), "The cell should be filled after refill");
         }
     }
 

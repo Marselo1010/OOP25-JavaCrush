@@ -1,6 +1,7 @@
 package it.unibo.javacrush.model.impl;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import it.unibo.javacrush.common.CellType;
 import it.unibo.javacrush.common.Position;
@@ -12,7 +13,7 @@ public class DownwardRefill implements RefillEngine {
 
     @Override
     public Boolean refill(Board board) {
-        boolean changed = false;
+        /*boolean changed = false;
 
         for (int col = 0; col < board.getCols(); col++) {
             Position pos = new Position(0, col);
@@ -25,6 +26,16 @@ public class DownwardRefill implements RefillEngine {
             }
         }
         return changed;
+        */
+       long addedCells = IntStream.range(0, board.getCols())
+            .filter(col -> board.getCellAt(new Position(col, 0)).isEmpty())
+            .peek(col -> {
+                Cell newCell = new CellImpl(CellType.getRandomType());
+                board.setCell(new Position(col, 0), Optional.of(newCell));
+            })
+            .count();
+
+        return addedCells > 0;
     }   
 
 }
