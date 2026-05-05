@@ -71,12 +71,12 @@ public class SessionImpl implements Session{
 
     @Override
     public GameState getGameStatus() {
-        var goal_complete = this.goals.stream()
+        var goalCompleted= this.goals.stream()
             .allMatch(Goal::isReached);
 
-        if (goal_complete && this.movesLeft >= 0) {
+        if (goalCompleted && this.movesLeft >= 0) {
             return GameState.WON;
-        } else if (!goal_complete && this.movesLeft == 0) {
+        } else if (!goalCompleted && this.movesLeft == 0) {
             return GameState.LOST;
         } else {
             return GameState.PLAYING;
