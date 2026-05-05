@@ -30,6 +30,7 @@ public class BoardImpl implements Board {
                 this.cells.put(new Position(i, j), Optional.empty());
             }
         }
+        System.out.println(this.cells);
     }
 
     @Override
@@ -47,6 +48,7 @@ public class BoardImpl implements Board {
         return cells.get(pos);
     }
     
+    //forse si può cancellare, non è usato da nessuna parte
     @Override
     public Map<Position, Optional<Cell>> getGrid() {
         return Map.copyOf(this.cells);

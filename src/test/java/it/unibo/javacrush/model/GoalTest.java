@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import it.unibo.javacrush.common.CellType;
 import it.unibo.javacrush.model.api.Goal;
 import it.unibo.javacrush.model.api.GoalFactory;
+import it.unibo.javacrush.model.impl.GoalFactoryImpl;
 
 /**
  * Test for {@link it.unibo.javacrush.model.api.Goal}.
