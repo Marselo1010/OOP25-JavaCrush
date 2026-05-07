@@ -2,6 +2,9 @@ package it.unibo.javacrush.controller.impl;
 
 import it.unibo.javacrush.controller.api.AppController;
 
+/**
+ * Implementation of the {@link AppController} interface.
+ */
 public class AppControllerImpl implements AppController{
 
     @Override
@@ -23,7 +26,7 @@ public class AppControllerImpl implements AppController{
     }
 
     @Override
-    public void startLevel(int levelNumber) {
+    public void startLevel(final int levelNumber) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'startLevel'");
     }

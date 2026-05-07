@@ -1,13 +1,24 @@
 package it.unibo.javacrush.controller.impl;
 
+import it.unibo.javacrush.common.GameState;
 import it.unibo.javacrush.common.Position;
-import it.unibo.javacrush.controller.api.GameStateController;
+import it.unibo.javacrush.controller.api.GameController;
 
-public class GameControllerImpl implements GameStateController{
+/**
+ * Implementation of the {@link GameController} interface.
+ */
+public class GameControllerImpl implements GameController{
 
     @Override
-    public void makeMove(Position p1, Position p2) {
-        
+    public boolean hit(final Position p) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'hit'");
+    }
+
+    @Override
+    public void makeMove(final Position p1, final Position p2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'makeMove'");
     }
 
     @Override
@@ -17,15 +28,15 @@ public class GameControllerImpl implements GameStateController{
     }
 
     @Override
-    public boolean isGameOver() {
+    public GameState updateGameState() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+        throw new UnsupportedOperationException("Unimplemented method 'updateGameState'");
     }
 
     @Override
-    public boolean isWin() {
+    public void quitLevel() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isWin'");
+        throw new UnsupportedOperationException("Unimplemented method 'quitLevel'");
     }
 
 }
