@@ -11,7 +11,7 @@ public record LevelConfig(
     int rows,
     int cols,
     int moves,
-    Map<CellType, Integer> targetCells,
+    Map<CellType, Integer> goals,
     GravityEngine gravity,
     boolean isDynamic
 ) {}

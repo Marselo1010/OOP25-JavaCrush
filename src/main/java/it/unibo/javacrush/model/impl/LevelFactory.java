@@ -3,12 +3,8 @@ package it.unibo.javacrush.model.impl;
 import java.util.Map;
 
 import it.unibo.javacrush.common.CellType;
-import it.unibo.javacrush.model.api.GravityEngine;
 import it.unibo.javacrush.model.api.LevelConfig;
-import it.unibo.javacrush.model.impl.gravity.DownwardGravity;
-import it.unibo.javacrush.model.impl.gravity.LeftwardGravity;
-import it.unibo.javacrush.model.impl.gravity.RightwardGravity;
-import it.unibo.javacrush.model.impl.gravity.UpwardGravity;
+import it.unibo.javacrush.model.impl.gravity.*;
 
 public class LevelFactory {
 
