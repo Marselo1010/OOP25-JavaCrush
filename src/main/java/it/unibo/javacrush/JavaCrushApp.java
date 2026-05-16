@@ -1,5 +1,6 @@
 package it.unibo.javacrush;
 
+import it.unibo.javacrush.controller.api.GameController;
 import it.unibo.javacrush.controller.api.MockMenuController;
 import it.unibo.javacrush.controller.impl.MockMenuControllerImpl;
 import it.unibo.javacrush.view.api.LevelsView;
@@ -44,7 +45,7 @@ public class JavaCrushApp extends Application implements SceneManager{
     }
 
     @Override
-    public void showGame(String difficulty) {
+    public void showGame(GameController gameController) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'showGame'");
     }

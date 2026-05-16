@@ -13,7 +13,6 @@ import it.unibo.javacrush.view.api.SceneManager;
  */
 public class StartLevelCommand implements Command {
 
-    // TO DO BASED ON LEVEL MANAGER
     private final SceneManager sceneManager;
     private final LevelManager levelManager;
     private final int idLevel;
@@ -33,10 +32,12 @@ public class StartLevelCommand implements Command {
     @Override
     public void execute() {
         GameController gameController = new GameControllerImpl(
-            this.levelManager.getLevelSetup(this.idLevel)
+            this.levelManager.startMatch(idLevel)
         );
 
         consumer.accept(gameController);
+
+        this.sceneManager.showGame(gameController);
     }
 
 }

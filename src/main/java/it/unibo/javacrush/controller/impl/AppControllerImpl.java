@@ -14,6 +14,7 @@ import it.unibo.javacrush.controller.impl.commands.ExitGameCommand;
 import it.unibo.javacrush.controller.impl.commands.GoToLevelsCommand;
 import it.unibo.javacrush.controller.impl.commands.GoToMenuCommand;
 import it.unibo.javacrush.controller.impl.commands.ShowInstructiosCommand;
+import it.unibo.javacrush.controller.impl.commands.StartLevelCommand;
 import it.unibo.javacrush.model.api.LevelManager;
 
 import it.unibo.javacrush.view.api.SceneManager;
@@ -53,10 +54,24 @@ public class AppControllerImpl implements AppController {
      * Set up the mapping between events and commands.
      */
     private void setUpCommands() {
-        this.commands.put(AppEventType.EXIT_GAME, event -> new ExitGameCommand(this.sceneManager));
+        this.commands.put(AppEventType.EXIT_GAME, event -> {
+            this.terminateGame();
+            return new ExitGameCommand(this.sceneManager);
+        });
         this.commands.put(AppEventType.GO_TO_LEVELS, event -> new GoToLevelsCommand(this.sceneManager));
         this.commands.put(AppEventType.GO_TO_MENU, event -> new GoToMenuCommand(this.sceneManager));
         this.commands.put(AppEventType.SHOW_INSTRUCTIONS, event -> new ShowInstructiosCommand(this.sceneManager));
+        this.commands.put(AppEventType.START_LEVEL, event -> {
+            int levelId = event.id().orElseThrow(() -> 
+                new IllegalStateException("We must have an id to start the level"));
+
+            return new StartLevelCommand(
+                this.sceneManager,
+                this.levelManager,
+                levelId,
+                controller -> this.currentGameController = Optional.of(controller)
+            );
+        });
     }
 
     /**

@@ -1,6 +1,9 @@
 package it.unibo.javacrush.controller;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -13,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import it.unibo.javacrush.common.AppEventType;
 import it.unibo.javacrush.common.GameEvent;
 import it.unibo.javacrush.controller.impl.AppControllerImpl;
+import it.unibo.javacrush.model.api.GameMatchContext;
+import it.unibo.javacrush.model.api.LevelConfig;
 import it.unibo.javacrush.model.api.LevelManager;
 import it.unibo.javacrush.view.api.SceneManager;
 
@@ -21,6 +26,8 @@ import it.unibo.javacrush.view.api.SceneManager;
  */
 @ExtendWith(MockitoExtension.class)
 public class AppControllerTest {
+
+    private static final int LEVEL_NUMBER = 1;
 
     @Mock
     private SceneManager sceneManager;
@@ -41,6 +48,7 @@ public class AppControllerTest {
         appController.notifyEvent(exitEvent);
 
         verify(sceneManager).quit();
+        assertTrue(appController.getCurrentGameController().isEmpty());
     }
 
     /**
@@ -80,6 +88,27 @@ public class AppControllerTest {
         appController.notifyEvent(instructionsEvent);
 
         verify(sceneManager).showInstructions();
+    }
+
+    /**
+     * Test the execution of the StartLevelCommand
+     * when the START_LEVEL event is notified.
+     */
+    @Test
+    void testStartLevelCommand () {
+        assertTrue(appController.getCurrentGameController().isEmpty());
+
+        GameMatchContext mockContext = mock(GameMatchContext.class);
+        LevelConfig mockConfig = mock(LevelConfig.class);
+        when(mockContext.getLevelConfig()).thenReturn(mockConfig);
+        
+        when(levelManager.startMatch(LEVEL_NUMBER)).thenReturn(mockContext);
+        var startLevelEvent = new GameEvent(AppEventType.START_LEVEL, Optional.of(LEVEL_NUMBER));
+
+        appController.notifyEvent(startLevelEvent);
+
+        verify(sceneManager).showGame(appController.getCurrentGameController().get());
+        assertTrue(appController.getCurrentGameController().isPresent());
     }
 
 }
