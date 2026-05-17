@@ -15,7 +15,7 @@ public class PowerUpManagerImpl implements PowerUpManager {
 
     private static final int TOTPOWERUPS = PowerUpNumber.values().length;
     private int selected;
-    private List<Boolean> permission;
+    private final List<Boolean> permission;
 
     /**
      * PowerUpManagerImpl constructor.
@@ -42,7 +42,7 @@ public class PowerUpManagerImpl implements PowerUpManager {
      */
     @Override
     public Boolean selectPowerUp(final int num) {
-        if ((this.permission.size() > num) && (num >= 0) && (this.permission.get(num))) {
+        if (this.permission.size() > num && num >= 0 && this.permission.get(num)) {
             this.selected = num;
         }
         return this.isPowerUpSelected();
@@ -62,9 +62,9 @@ public class PowerUpManagerImpl implements PowerUpManager {
      */
     @Override
     public Boolean applyPowerUp(final Board board, final Position pos) {
-        if (this.isPowerUpSelected() &&
-            this.permission.get(this.selected) &&
-            PowerUpNumber.values()[this.selected].getPowerUp().applyPowerUp(board, pos)) {
+        if (this.isPowerUpSelected()
+            && this.permission.get(this.selected)
+            && PowerUpNumber.values()[this.selected].getPowerUp().applyPowerUp(board, pos)) {
 
                 this.permission.remove(this.selected);
                 this.permission.add(this.selected, false);

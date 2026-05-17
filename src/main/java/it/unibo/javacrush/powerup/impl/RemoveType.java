@@ -3,7 +3,6 @@ package it.unibo.javacrush.powerup.impl;
 import it.unibo.javacrush.common.Position;
 import it.unibo.javacrush.model.api.Board;
 import it.unibo.javacrush.model.api.Cell;
-import it.unibo.javacrush.powerup.api.AbstractPowerUp;
 
 /**
  * This PowerUp removes all the cells on the board with the same type of the given cell.
