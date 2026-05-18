@@ -26,15 +26,16 @@ import it.unibo.javacrush.model.impl.SessionImpl;
 class SessionTest {
 
     private static final int INITIAL_MOVES = 10;
+    private static final int TARGET_GOAL = 5;
     private static final GoalFactory FACTORY = new GoalFactoryImpl();
     private Session session;
 
     @BeforeEach
     void initialize() {
         // Creation of a mock grid
-        Map<CellType, Integer> mockGoals = Map.of(
-            CellType.COFFEE_BEAN, 5,
-            CellType.MILK, 10
+        final Map<CellType, Integer> mockGoals = Map.of(
+            CellType.COFFEE_BEAN, TARGET_GOAL,
+            CellType.MILK, TARGET_GOAL * 2
         );
 
         session = new SessionImpl(INITIAL_MOVES, mockGoals, FACTORY);
@@ -57,7 +58,7 @@ class SessionTest {
 
         // Control after a single decrease
         assertTrue(this.session.getMovesLeft() > 0);
-        assertEquals((INITIAL_MOVES - 1), this.session.getMovesLeft());
+        assertEquals(INITIAL_MOVES - 1, this.session.getMovesLeft());
 
         // Control after multiple decreases
         for (int i = 0; i < INITIAL_MOVES - 1; i++) {
@@ -77,7 +78,7 @@ class SessionTest {
 
         assertThrows(
             IllegalStateException.class, 
-            () -> this.session.decreaseMoves(),
+            this.session::decreaseMoves,
             "The game cannot have a negative number of moves"
         );
     }
@@ -87,12 +88,12 @@ class SessionTest {
      */
     @Test
     void testGetGoals() {
-        List<Goal> goals = this.session.getGoals();
+        final List<Goal> goals = this.session.getGoals();
 
         assertNotNull(goals);
         assertThrows(
             UnsupportedOperationException.class,
-            () -> goals.clear(),
+            goals::clear,
             "The list should be unmodifiable"
         );
     }
@@ -111,7 +112,7 @@ class SessionTest {
     @Test
     void testUpdateGoalsWithExistingType() {
         // We find a goal used in the session
-        Goal targetGoal = this.session.getGoals().stream()
+        final Goal targetGoal = this.session.getGoals().stream()
             .findFirst()
             .orElseThrow();
 
@@ -160,11 +161,11 @@ class SessionTest {
 
         assertEquals(0, this.session.getMovesLeft());
 
-        boolean goalCompleted = this.session.getGoals().stream()
+        final boolean goalCompleted = this.session.getGoals().stream()
             .allMatch(Goal::isReached);
 
         assertFalse(goalCompleted);
-        
+
         assertEquals(GameState.LOST, this.session.getGameStatus());
     }
 }

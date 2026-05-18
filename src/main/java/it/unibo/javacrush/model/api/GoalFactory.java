@@ -5,6 +5,7 @@ import it.unibo.javacrush.common.CellType;
 /**
  * Interface representing a factory for creating Goal instances.
  */
+@SuppressWarnings("PMD.ImplicitFunctionalInterface")
 public interface GoalFactory {
 
     /**

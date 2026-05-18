@@ -21,14 +21,19 @@ import it.unibo.javacrush.view.api.SceneManager;
 /**
  * Implementation of the {@link AppController} interface.
  */
-public class AppControllerImpl implements AppController {
+public final class AppControllerImpl implements AppController {
 
     private final SceneManager sceneManager;
     private final Map<AppEventType, Function<Event, Command>> commands = new EnumMap<>(AppEventType.class);
     private final LevelManager levelManager;
     private Optional<GameController> currentGameController = Optional.empty();
 
-
+    /**
+     * Constructor for the AppControllerImpl class.
+     * 
+     * @param sceneManager the scene manager used to change the views
+     * @param levelManager the level manager used to get the levels to play
+     */
     public AppControllerImpl(final SceneManager sceneManager, final LevelManager levelManager) {
         this.sceneManager = sceneManager;
         this.levelManager = levelManager;
@@ -36,16 +41,22 @@ public class AppControllerImpl implements AppController {
         this.setUpCommands();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void notifyEvent(final Event event) {
-        var commandFactory = commands.get(event.type());
+        final var commandFactory = commands.get(event.type());
 
         if (commandFactory != null) {
             commandFactory.apply(event).execute();
         }
     }
 
-    // Maybe to put it in the interface
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Optional<GameController> getCurrentGameController() {
         return currentGameController;
     }
@@ -62,7 +73,7 @@ public class AppControllerImpl implements AppController {
         this.commands.put(AppEventType.GO_TO_MENU, event -> new GoToMenuCommand(this.sceneManager));
         this.commands.put(AppEventType.SHOW_INSTRUCTIONS, event -> new ShowInstructiosCommand(this.sceneManager));
         this.commands.put(AppEventType.START_LEVEL, event -> {
-            int levelId = event.id().orElseThrow(() -> 
+            final int levelId = event.id().orElseThrow(() -> 
                 new IllegalStateException("We must have an id to start the level"));
 
             return new StartLevelCommand(

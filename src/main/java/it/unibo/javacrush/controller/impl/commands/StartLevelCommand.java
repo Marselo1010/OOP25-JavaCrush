@@ -12,7 +12,7 @@ import it.unibo.javacrush.view.api.SceneManager;
 /**
  * Command to start a level.
  */
-public class StartLevelCommand implements Command {
+public final class StartLevelCommand implements Command {
 
     private final SceneManager sceneManager;
     private final LevelManager levelManager;
@@ -20,6 +20,16 @@ public class StartLevelCommand implements Command {
     private final Consumer<GameController> consumer;
     private final GameView gameView;
 
+    /**
+     * Constructor for the StartLevelCommand class.
+     * 
+     * @param sceneManager the scene manager used to change the view to the game screen
+     * @param levelManager the level manager used to get the level to start
+     * @param idLevel the id of the level to start
+     * @param consumer a consumer that accepts the created GameController,
+     *      used to set the current game controller in the AppController
+     * @param gameView the game view used to display the game screen
+     */
     public StartLevelCommand(
         final SceneManager sceneManager,
         final LevelManager levelManager,
@@ -33,9 +43,12 @@ public class StartLevelCommand implements Command {
         this.gameView = gameView;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute() {
-        GameController gameController = new GameControllerImpl(
+        final GameController gameController = new GameControllerImpl(
             this.levelManager.startMatch(idLevel),
             this.gameView
         );

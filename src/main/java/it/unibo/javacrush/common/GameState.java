@@ -6,5 +6,5 @@ package it.unibo.javacrush.common;
 public enum GameState {
     PLAYING,
     WON,
-    LOST;
+    LOST
 }

@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ import it.unibo.javacrush.view.api.GameView;
  * Test class for the {@link GameControllerImpl} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class GameControllerTest {
+class GameControllerTest {
     @Mock
     private GameView view;
     @Mock
@@ -104,7 +105,7 @@ public class GameControllerTest {
     void testGravityWhenBoardChanges() {
         when(this.physics.update(this.board)).thenReturn(true);
 
-        boolean result = this.gameController.applyGravity();
+        final boolean result = this.gameController.applyGravity();
         assertTrue(result, "The board has changed");
 
         verify(this.physics).update(this.board);
@@ -120,7 +121,7 @@ public class GameControllerTest {
         when(this.physics.update(this.board)).thenReturn(false);
         when(this.matchManager.findAllMatches(this.board)).thenReturn(Set.of());
 
-        boolean result = this.gameController.applyGravity();
+        final boolean result = this.gameController.applyGravity();
         assertFalse(result, "The board is stable");
 
         verify(this.physics).update(this.board);
@@ -136,7 +137,7 @@ public class GameControllerTest {
         when(this.physics.update(this.board)).thenReturn(false);
         when(this.matchManager.findAllMatches(this.board)).thenReturn(Set.of(mock(Match.class)));
 
-        boolean result = this.gameController.applyGravity();
+        final boolean result = this.gameController.applyGravity();
 
         assertTrue(result, "Dovrebbe tornare true perché sono stati trovati e gestiti dei match");
         verify(this.view).updateView();
@@ -150,7 +151,7 @@ public class GameControllerTest {
         when(this.powerUpManager.isPowerUpSelected()).thenReturn(true);
         when(this.powerUpManager.applyPowerUp(this.board, new Position(0, 0))).thenReturn(true);
 
-        boolean result = this.gameController.hit(new Position(0, 0));
+        final boolean result = this.gameController.hit(new Position(0, 0));
         assertTrue(result, "The PowerUp should be applied");
 
         verify(this.powerUpManager).applyPowerUp(this.board, new Position(0, 0));

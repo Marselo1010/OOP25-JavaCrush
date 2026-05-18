@@ -7,17 +7,17 @@ import it.unibo.javacrush.common.GameState;
 import it.unibo.javacrush.common.Position;
 
 /**
- * Interface representing the game controller, 
- * it's responsable for the single levels.
-*/
+ * Interface representing the controller of a game level, responsible for 
+ * managing the interactions between the view and the model of the game.
+ */
 public interface GameController {
 
     /**
-     * Handle the click on the board:
+     * Handle the click on the board.
      *  - normally it will select the cell and then deselect it if it's already selected
      *  - if a powerUp was selected, it apply that on the clicked cell
      *
-     * @param p the position of the cell clicked
+     * @param pos the position of the cell clicked
      * @return true if the cells are swapped, false otherwise
      */
     boolean hit(Position pos);

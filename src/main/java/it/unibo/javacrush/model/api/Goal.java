@@ -6,7 +6,7 @@ import it.unibo.javacrush.common.CellType;
  * Interface representing a goal in the game.
  */
 public interface Goal {
-    
+
     /**
      * The type of the goal (type of cells that need to be collected).
      * 

@@ -22,7 +22,7 @@ import it.unibo.javacrush.view.api.GameView;
 /**
  * Implementation of the {@link GameController} interface.
  */
-public class GameControllerImpl implements GameController{
+public final class GameControllerImpl implements GameController {
 
     private final GameView view;
     private final Map<CellType, Integer> goals;
@@ -35,10 +35,16 @@ public class GameControllerImpl implements GameController{
     private final MatchManager matchManager;
     private final PowerUpManager powerUpManager;
 
-    private Position lastClickedPosition = null;
+    private Position lastClickedPosition;
     private Set<Match> matches = Set.of();
-    
 
+    /**
+     * Constructor for the GameControllerImpl class.
+     * 
+     * @param gameContext the context of the game, containing all the necessary 
+     *      information for the controller
+     * @param view the view for the game
+     */
     public GameControllerImpl(final GameMatchContext gameContext, final GameView view) {
         this.view = view;
         this.board = gameContext.getBoard();
@@ -55,7 +61,9 @@ public class GameControllerImpl implements GameController{
         this.physics.initializeBoard(this.board);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean hit(final Position pos) {
         if (this.powerUpManager.isPowerUpSelected()) {
@@ -64,7 +72,9 @@ public class GameControllerImpl implements GameController{
         return this.normalHit(pos);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleMatches() {
         this.matches.stream()
@@ -77,10 +87,12 @@ public class GameControllerImpl implements GameController{
         this.view.updateView();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean applyGravity() {
-        boolean boardChanged = this.physics.update(this.board);
+        final boolean boardChanged = this.physics.update(this.board);
 
         if (boardChanged) {
             this.view.updateView();
@@ -102,48 +114,59 @@ public class GameControllerImpl implements GameController{
         return boardChanged;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean selectPowerUp(final int id) {
         return this.powerUpManager.selectPowerUp(id);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameState updateGameState() {
         return this.session.getGameStatus();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CellType getCellTypeAtPos(final Position pos) {
         return this.board.getCellAt(pos).get().getType();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMovesLeft() {
         return this.session.getMovesLeft();
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<CellType, Integer> getGoals() {
         return Map.copyOf(this.goals);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void quitLevel() {
         this.view.quitLevel();
     }
 
-
     /**
      * Handle the hit in the normal way, it will select the cell and then deselect 
      * it if it's already selected.
      *
-     * @param p the position of the cell clicked
+     * @param pos the position of the cell clicked
      * @return true if the cells are swapped, false otherwise
      */
     private boolean normalHit(final Position pos) {
@@ -152,7 +175,7 @@ public class GameControllerImpl implements GameController{
             this.lastClickedPosition = pos;
             return false;
         } else {
-            boolean canSwap = this.swap(this.lastClickedPosition, pos);
+            final boolean canSwap = this.swap(this.lastClickedPosition, pos);
 
             this.lastClickedPosition = null;
             if (canSwap) {
@@ -165,7 +188,6 @@ public class GameControllerImpl implements GameController{
         }
     }
 
-
     /**
      * Handle the hit when a PowerUp is selected, it will apply the PowerUp on the clicked cell.
      * 
@@ -173,7 +195,7 @@ public class GameControllerImpl implements GameController{
      * @return true if the PowerUp is applied, false otherwise
      */
     private boolean handlePoweUpHit(final Position pos) {
-        boolean applyPowerUp = this.powerUpManager.applyPowerUp(this.board, pos);
+        final boolean applyPowerUp = this.powerUpManager.applyPowerUp(this.board, pos);
 
         if (applyPowerUp) {
             this.setGravity();
@@ -183,7 +205,6 @@ public class GameControllerImpl implements GameController{
 
         return applyPowerUp;
     }
-
 
     /**
      * Swap two cells.

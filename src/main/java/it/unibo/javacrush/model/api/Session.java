@@ -25,9 +25,9 @@ public interface Session {
     /**
      * The updated goals of the game.
      * 
-     * @return an unmodifiable list with the updated goals of the game 
+     * @return an unmodifiable list with the updated goals of the game
      */
-   List<Goal> getGoals();
+    List<Goal> getGoals();
 
     /**
      * Update the goals based on the collected cells.

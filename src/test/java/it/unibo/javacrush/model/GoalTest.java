@@ -26,7 +26,7 @@ class GoalTest {
     private Goal goal;
 
     @BeforeEach
-    void initialize(){
+    void initialize() {
         final GoalFactory factory = new GoalFactoryImpl();
         this.goal = factory.createGoal(TYPE, INITIAL_TARGET);
     }
@@ -60,7 +60,7 @@ class GoalTest {
     void testAddProgress() {
         this.goal.addProgress(PROGRESS_TARGET);
 
-        assertTrue(this.goal.getCurrentAmount() != 0);
+        assertNotEquals(this.goal.getCurrentAmount(), 0);
         assertEquals(PROGRESS_TARGET, this.goal.getCurrentAmount());
     }
 

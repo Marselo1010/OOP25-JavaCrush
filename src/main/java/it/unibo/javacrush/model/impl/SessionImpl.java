@@ -13,12 +13,20 @@ import it.unibo.javacrush.model.api.Session;
 
 /** 
  * Implementation of the {@link Session} interface.
-*/
-public class SessionImpl implements Session{
+ */
+public final class SessionImpl implements Session {
 
     private int movesLeft;
     private final List<Goal> goals = new ArrayList<>();
 
+    /**
+     * Constructor for the SessionImpl class.
+     * 
+     * @param moves the number of moves available for the session
+     * @param goalsMap a map containing the goals of the session, where the key is the type of cell and 
+     *      the value is the target amount for that type
+     * @param factory the factory used to create goals
+     */
     public SessionImpl(final int moves, final Map<CellType, Integer> goalsMap, final GoalFactory factory) {
         this.movesLeft = moves;
 
@@ -27,32 +35,48 @@ public class SessionImpl implements Session{
             .forEach(goals::add);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getMovesLeft() {
         return this.movesLeft;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void decreaseMoves() {
-        if(this.movesLeft == 0) {
+        if (this.movesLeft == 0) {
             throw new IllegalStateException("We cannot decrease moves when already at 0");
         }
         this.movesLeft--;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Goal> getGoals() {
         return Collections.unmodifiableList(goals);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateGoals(CellType type, int count) {
+    public void updateGoals(final CellType type, final int count) {
         this.goals.forEach(goal -> {
-            if (goal.getTargetType() == type)
+            if (goal.getTargetType() == type) {
                 goal.addProgress(count);
+            }
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GameState getGameStatus() {
         if (this.isGameWon()) {

@@ -33,7 +33,7 @@ import it.unibo.javacrush.view.api.SceneManager;
  * Test class for the {@link AppControllerImpl} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class AppControllerTest {
+class AppControllerTest {
 
     private static final int LEVEL_NUMBER = 1;
 
@@ -52,7 +52,7 @@ public class AppControllerTest {
      */
     @Test
     void testExitGameCommand() {
-        var exitEvent = new GameEvent(AppEventType.EXIT_GAME,  Optional.empty());
+        final var exitEvent = new GameEvent(AppEventType.EXIT_GAME, Optional.empty());
 
         appController.notifyEvent(exitEvent);
 
@@ -66,7 +66,7 @@ public class AppControllerTest {
      */
     @Test
     void testGoToMenuCommand() {
-        var menuEvent = new GameEvent(AppEventType.GO_TO_MENU, Optional.empty());
+        final var menuEvent = new GameEvent(AppEventType.GO_TO_MENU, Optional.empty());
 
         appController.notifyEvent(menuEvent);
 
@@ -80,7 +80,7 @@ public class AppControllerTest {
      */
     @Test
     void testGoToLevelsCommand() {
-        var levelsEvent = new GameEvent(AppEventType.GO_TO_LEVELS, Optional.empty());
+        final var levelsEvent = new GameEvent(AppEventType.GO_TO_LEVELS, Optional.empty());
 
         appController.notifyEvent(levelsEvent);
 
@@ -93,7 +93,7 @@ public class AppControllerTest {
      */
     @Test
     void testShowInstructionsCommand() {
-        var instructionsEvent = new GameEvent(AppEventType.SHOW_INSTRUCTIONS,  Optional.empty());
+        final var instructionsEvent = new GameEvent(AppEventType.SHOW_INSTRUCTIONS, Optional.empty());
 
         appController.notifyEvent(instructionsEvent);
 
@@ -105,20 +105,20 @@ public class AppControllerTest {
      * when the START_LEVEL event is notified.
      */
     @Test
-    void testStartLevelCommand () {
+    void testStartLevelCommand() {
         assertTrue(appController.getCurrentGameController().isEmpty());
 
-        GameMatchContext mockContext = mock(GameMatchContext.class);
-        LevelConfig mockConfig = mock(LevelConfig.class);
-        PhysicsHandler mockPhysics = mock(PhysicsHandler.class);
-        Board mockBoard = mock(Board.class);
+        final GameMatchContext mockContext = mock(GameMatchContext.class);
+        final LevelConfig mockConfig = mock(LevelConfig.class);
+        final PhysicsHandler mockPhysics = mock(PhysicsHandler.class);
+        final Board mockBoard = mock(Board.class);
 
         // We need to configure the context otherwise the constructor will
         // receive null argument
         when(mockContext.getLevelConfig()).thenReturn(mockConfig);
         when(mockContext.getPhysicsHandler()).thenReturn(mockPhysics);
         when(mockContext.getBoard()).thenReturn(mockBoard);
-        
+ 
         when(mockContext.getSession()).thenReturn(mock(Session.class));
         when(mockContext.getStallEngine()).thenReturn(mock(StallEngine.class));
         when(mockContext.getMoveEngine()).thenReturn(mock(MoveEngine.class));
@@ -128,7 +128,7 @@ public class AppControllerTest {
         when(mockConfig.goals()).thenReturn(java.util.Map.of());
 
         when(levelManager.startMatch(LEVEL_NUMBER)).thenReturn(mockContext);
-        var startLevelEvent = new GameEvent(AppEventType.START_LEVEL, Optional.of(LEVEL_NUMBER));
+        final var startLevelEvent = new GameEvent(AppEventType.START_LEVEL, Optional.of(LEVEL_NUMBER));
 
         appController.notifyEvent(startLevelEvent);
 

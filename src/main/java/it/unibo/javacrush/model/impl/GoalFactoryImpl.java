@@ -7,38 +7,58 @@ import it.unibo.javacrush.model.api.GoalFactory;
 /**
  * Implementation of the {@link GoalFactory} interface.
  */
-public class GoalFactoryImpl implements GoalFactory{
+public final class GoalFactoryImpl implements GoalFactory {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Goal createGoal(final CellType type, final int targetAmount) {
+        return new GoalImpl(type, targetAmount);
+    }
 
     /**
      * Private inner class implementing the {@link Goal} interface.
      */
-    private static class GoalImpl implements Goal{
+    private static class GoalImpl implements Goal {
 
         private final CellType type;
         private final int targetAmount;
         private int currentAmount;
 
-        public GoalImpl(final CellType type, final int targetAmount) {
+        GoalImpl(final CellType type, final int targetAmount) {
             this.type = type;
             this.targetAmount = targetAmount;
             this.currentAmount = 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public CellType getTargetType() {
             return this.type;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getTargetAmount() {
             return this.targetAmount;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getCurrentAmount() {
             return this.currentAmount;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void addProgress(final int count) {
             if (count < 0) {
@@ -51,6 +71,9 @@ public class GoalFactoryImpl implements GoalFactory{
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean isReached() {
             return this.currentAmount >= this.targetAmount;
@@ -58,8 +81,4 @@ public class GoalFactoryImpl implements GoalFactory{
 
     }
 
-    @Override
-    public Goal createGoal(final CellType type, final int targetAmount) {
-        return new GoalImpl(type, targetAmount);
-    }
 }
