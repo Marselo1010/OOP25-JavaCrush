@@ -9,4 +9,9 @@ public interface GameView {
      * Update the view.
      */
     void updateView();
+
+    /**
+     * Quit the current level.
+     */
+    void quitLevel();
 }
