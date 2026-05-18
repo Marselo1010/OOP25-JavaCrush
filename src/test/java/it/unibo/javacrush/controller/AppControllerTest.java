@@ -16,9 +16,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import it.unibo.javacrush.common.AppEventType;
 import it.unibo.javacrush.common.GameEvent;
 import it.unibo.javacrush.controller.impl.AppControllerImpl;
+import it.unibo.javacrush.model.api.Board;
 import it.unibo.javacrush.model.api.GameMatchContext;
+import it.unibo.javacrush.model.api.GravityEngine;
 import it.unibo.javacrush.model.api.LevelConfig;
 import it.unibo.javacrush.model.api.LevelManager;
+import it.unibo.javacrush.model.api.MatchManager;
+import it.unibo.javacrush.model.api.MoveEngine;
+import it.unibo.javacrush.model.api.PhysicsHandler;
+import it.unibo.javacrush.model.api.Session;
+import it.unibo.javacrush.model.api.StallEngine;
+import it.unibo.javacrush.powerup.api.PowerUpManager;
 import it.unibo.javacrush.view.api.SceneManager;
 
 /**
@@ -39,7 +47,8 @@ public class AppControllerTest {
     private AppControllerImpl appController;
 
     /**
-     * Test the execution of the ExitGameCommand when the EXIT_GAME event is notified.
+     * Test the execution of the ExitGameCommand 
+     * when the EXIT_GAME event is notified.
      */
     @Test
     void testExitGameCommand() {
@@ -62,6 +71,7 @@ public class AppControllerTest {
         appController.notifyEvent(menuEvent);
 
         verify(sceneManager).showMenu();
+        assertTrue(appController.getCurrentGameController().isEmpty());
     }
 
     /**
@@ -100,8 +110,23 @@ public class AppControllerTest {
 
         GameMatchContext mockContext = mock(GameMatchContext.class);
         LevelConfig mockConfig = mock(LevelConfig.class);
+        PhysicsHandler mockPhysics = mock(PhysicsHandler.class);
+        Board mockBoard = mock(Board.class);
+
+        // We need to configure the context otherwise the constructor will
+        // receive null argument
         when(mockContext.getLevelConfig()).thenReturn(mockConfig);
+        when(mockContext.getPhysicsHandler()).thenReturn(mockPhysics);
+        when(mockContext.getBoard()).thenReturn(mockBoard);
         
+        when(mockContext.getSession()).thenReturn(mock(Session.class));
+        when(mockContext.getStallEngine()).thenReturn(mock(StallEngine.class));
+        when(mockContext.getMoveEngine()).thenReturn(mock(MoveEngine.class));
+        when(mockContext.getMatchManager()).thenReturn(mock(MatchManager.class));
+        when(mockConfig.gravity()).thenReturn(mock(GravityEngine.class));
+        when(mockConfig.powerUpManager()).thenReturn(mock(PowerUpManager.class));
+        when(mockConfig.goals()).thenReturn(java.util.Map.of());
+
         when(levelManager.startMatch(LEVEL_NUMBER)).thenReturn(mockContext);
         var startLevelEvent = new GameEvent(AppEventType.START_LEVEL, Optional.of(LEVEL_NUMBER));
 
