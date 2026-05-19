@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Set;
 
 import it.unibo.javacrush.common.CellType;
-import it.unibo.javacrush.common.Position;
 import it.unibo.javacrush.common.GameState;
+import it.unibo.javacrush.common.Position;
 import it.unibo.javacrush.controller.api.GameController;
 import it.unibo.javacrush.model.api.Board;
 import it.unibo.javacrush.model.api.GameMatchContext;
@@ -154,6 +154,22 @@ public class GameControllerImpl implements GameController {
     @Override
     public void quitLevel() {
         this.view.quitLevel();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBoardCols() {
+        return this.board.getCols();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getBoardRows() {
+        return this.board.getRows();
     }
 
     /**

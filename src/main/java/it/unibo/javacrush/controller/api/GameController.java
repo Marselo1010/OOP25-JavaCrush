@@ -77,4 +77,16 @@ public interface GameController {
      */
     void quitLevel();
 
+    /**
+     * Get the number of columns of the board.
+     * @return the number of columns of the board
+     */
+    int getBoardCols();
+
+    /**
+     * Get the number of rows of the board.
+     * @return the number of rows of the board
+     */
+    int getBoardRows();
+
 }
