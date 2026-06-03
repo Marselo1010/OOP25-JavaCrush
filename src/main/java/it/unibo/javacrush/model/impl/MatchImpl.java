@@ -55,4 +55,9 @@ public class MatchImpl implements Match {
         MatchImpl other = (MatchImpl) obj;
         return positions.equals(other.positions) && type == other.type;
     }
+
+    @Override
+    public String toString() {
+        return "MatchImpl [positions=" + positions + ", type=" + type + "]";
+    }
 }

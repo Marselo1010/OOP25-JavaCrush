@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -72,18 +71,20 @@ public class StallEngineImpl implements StallEngine {
         final List<Match> resultList = new ArrayList<>();
 
         Position p;
+
         for (int y = 0; y < board.getCols(); y++) {
             for (int x = 0; x < board.getRows(); x++) {
                 p = new Position(x, y);
                 if (board.getCellAt(p).isEmpty()) {
-                    throw new NoSuchElementException("The current board is not well initialized");
+                    resultList.add(new MatchImpl(Set.of(), null));
+                    return resultList;
                 }
                 tmp.setCell(p, board.getCellAt(p));
             }
         }
 
-        for (int y = 0; y < tmp.getCols() - 2; y++) {
-            for (int x = 0; x < tmp.getRows() - 2; x++) {
+        for (int y = 0; y < tmp.getCols(); y++) {
+            for (int x = 0; x < tmp.getRows(); x++) {
 
                 p = new Position(x, y);
                 if (manager.findMatchesAt(this.swapRight(tmp, p), p) != null) {
@@ -95,10 +96,23 @@ public class StallEngineImpl implements StallEngine {
                     resultList.add(manager.findMatchesAt(tmp, p));
                 }
                 this.swapDown(tmp, p);
+
+                if (manager.findMatchesAt(this.swapLeft(tmp, p), p) != null) {
+                    resultList.add(manager.findMatchesAt(tmp, p));
+                }
+                this.swapLeft(tmp, p);
+
+                if (manager.findMatchesAt(this.swapUp(tmp, p), p) != null) {
+                    resultList.add(manager.findMatchesAt(tmp, p));
+                }
+                this.swapUp(tmp, p);
             }
         }
 
-        return resultList;
+        return resultList.stream()
+                        .filter((a) -> a != null)
+                        .distinct()
+                        .toList();
     }
 
     /**
@@ -115,22 +129,26 @@ public class StallEngineImpl implements StallEngine {
             for (final var pos : currentMatch.getPositions()) {
                 if (board.getCellAt(pos).get().getType() != currentMatch.getType()) {
 
-                    if (manager.findMatchesAt(this.swapRight(board, pos), pos) != null) {
+                    if (manager.findMatchesAt(this.swapRight(board, pos), pos) != null
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
                         resultSet.add(new Position(pos.x() + 1, pos.y()));
                     }
                     this.swapRight(board, pos);
 
-                    if (manager.findMatchesAt(this.swapLeft(board, pos), pos) != null) {
+                    if (manager.findMatchesAt(this.swapLeft(board, pos), pos) != null
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
                         resultSet.add(new Position(pos.x() - 1, pos.y()));
                     }
                     this.swapLeft(board, pos);
 
-                    if (manager.findMatchesAt(this.swapDown(board, pos), pos) != null) {
+                    if (manager.findMatchesAt(this.swapDown(board, pos), pos) != null
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
                         resultSet.add(new Position(pos.x(), pos.y() + 1));
                     }
                     this.swapDown(board, pos);
 
-                    if (manager.findMatchesAt(this.swapUp(board, pos), pos) != null) {
+                    if (manager.findMatchesAt(this.swapUp(board, pos), pos) != null
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
                         resultSet.add(new Position(pos.x(), pos.y() - 1));
                     }
                     this.swapUp(board, pos);

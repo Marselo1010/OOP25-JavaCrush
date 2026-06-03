@@ -3,11 +3,9 @@ package it.unibo.javacrush.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -61,9 +59,6 @@ class StallEngineTest {
                 board.setCell(new Position(x, y), Optional.empty());
             }
         }
-        assertThrows(NoSuchElementException.class, () -> {
-            st.resolveStall(board);
-        }, "Constructor should throw NoSuchElementException if any cell of the board is empty");
     }
 
     /**

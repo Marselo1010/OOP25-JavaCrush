@@ -1,6 +1,7 @@
 package it.unibo.javacrush.controller.api;
 
 import java.util.Map;
+import java.util.Set;
 
 import it.unibo.javacrush.common.CellType;
 import it.unibo.javacrush.common.GameState;
@@ -95,5 +96,19 @@ public interface GameController {
      * @return the number of rows of the board
      */
     int getBoardRows();
+
+    /**
+     * Check if there is stall in the current board.
+     * 
+     * @return true if there is stall, false otherwise.
+     */
+    boolean isStall();
+
+    /**
+     * Get a Set of Position of the cells of a possible match.
+     * 
+     * @return a Set with the positions of the cells that could form a possible match.
+     */
+    Set<Position> getHint();
 
 }

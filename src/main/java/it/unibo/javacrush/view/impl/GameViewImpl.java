@@ -3,8 +3,11 @@ package it.unibo.javacrush.view.impl;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+
 
 import it.unibo.javacrush.common.AppEventType;
 import it.unibo.javacrush.common.CellType;
@@ -36,6 +39,7 @@ public class GameViewImpl implements GameView{
 
     private final Map<CellType, Image> cellTypeImages = new EnumMap<>(CellType.class);
     private final Map<Button,Position> gridMap = new HashMap<>();
+    private Set<Position> hint = new HashSet<>();
     private final BorderPane root;
     private final GridPane grid;
     private final VBox powerUpBox;
@@ -89,6 +93,7 @@ public class GameViewImpl implements GameView{
 
     @Override
     public void updateView() {
+
         this.movesLabel.setText("Moves left: " + this.controller.getMovesLeft());
         this.movesLabel.setStyle("-fx-font-size: 16px; -fx-background-color: #f0f0f0; -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
         
@@ -102,6 +107,10 @@ public class GameViewImpl implements GameView{
             Label goalLabel = new Label(type.toString() + ": " + currentAmount + "/" + amount);
             goalLabel.setStyle("-fx-font-size: 16px; -fx-background-color: #f0f0f0; -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
             this.goalsContainer.getChildren().add(goalLabel);
+        }
+
+        if (!this.controller.isStall()) {
+            this.hint = this.controller.getHint();
         }
 
         for (var e : gridMap.entrySet()) {
@@ -120,6 +129,10 @@ public class GameViewImpl implements GameView{
             } else {
                 bt.setGraphic(null);
                 bt.setStyle("-fx-background-color: transparent; -fx-border-color: #cccccc; -fx-border-width: 1px;");
+            }
+
+            if (this.hint.contains(pos)) {
+                bt.setStyle("-fx-background-color: green; -fx-border-width: 5px; -fx-border-radius: 5;");
             }
         }
 
@@ -197,6 +210,7 @@ public class GameViewImpl implements GameView{
                         } else if (this.selectedCell == bt) {
                             bt.setStyle("");
                             this.selectedCell = null;
+                            this.updateView();
                         } else {
                             this.selectedCell.setStyle("");
                             this.selectedCell = null;
@@ -215,22 +229,30 @@ public class GameViewImpl implements GameView{
                         KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
                             
                             boolean isFalling = this.controller.applyGravity();
-                            
+
                             this.updateView();
 
                             if (!isFalling) {
                                 timeline.stop();
                                 this.isAnimating = false;
                                 Platform.runLater(() -> this.checkStateGame());
+                                
+                            }
+                        });
+
+                        KeyFrame f2 = new KeyFrame(Duration.seconds(0.5), ev -> {
+
+                            if (this.controller.isStall()) {
+                                Platform.runLater(() -> this.stallAlert());
                             }
                         });
 
                         timeline.getKeyFrames().add(frame);
+                        timeline.getKeyFrames().add(f2);
                         timeline.setCycleCount(Timeline.INDEFINITE);
                         timeline.play();
 
-
-                    this.updateView();
+                        this.updateView();
                     }
                 
                 });
@@ -334,6 +356,14 @@ public class GameViewImpl implements GameView{
             this.quitLevel();
 
         }
+    }
+
+    private void stallAlert() {
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("STALL");
+        alert.setContentText("The board is in stall, click to refresh the cells.");
+        alert.showAndWait();
     }
 
 }

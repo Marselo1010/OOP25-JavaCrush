@@ -99,7 +99,6 @@ public class GameControllerImpl implements GameController {
                 this.handleMatches();
                 return true;
             } else {
-                // Resolve stall
                 this.stallEngine.resolveStall(this.board);
                 this.view.updateView();
             }
@@ -188,6 +187,22 @@ public class GameControllerImpl implements GameController {
     @Override
     public int getBoardRows() {
         return this.board.getRows();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isStall() {
+        return this.stallEngine.isStall(board);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<Position> getHint() {
+        return this.stallEngine.getHint(board);
     }
 
     /**
