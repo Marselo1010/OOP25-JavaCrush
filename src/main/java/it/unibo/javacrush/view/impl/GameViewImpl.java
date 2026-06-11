@@ -122,9 +122,16 @@ public class GameViewImpl implements GameView {
             final int amount = goal.getValue();
             final int currentAmount = this.controller.getGoalsProgress().getOrDefault(type, 0);
 
-            final Label goalLabel = new Label(type.toString() + ": " + currentAmount + "/" + amount);
+            final Label goalLabel = new Label(" " + currentAmount + "/" + amount);
             goalLabel
             .setStyle("-fx-font-size: 16px; -fx-background-color: #f0f0f0; -fx-padding: 5 10 5 10; -fx-background-radius: 5;");
+            if (type != null && this.cellTypeImages.containsKey(type)) {
+                final ImageView goalImg = new ImageView(this.cellTypeImages.get(type));
+                goalImg.setFitWidth(25);
+                goalImg.setFitHeight(25);
+                goalImg.setPreserveRatio(true);
+                goalLabel.setGraphic(goalImg);
+            }
             this.goalsContainer.getChildren().add(goalLabel);
         }
 
@@ -218,7 +225,7 @@ public class GameViewImpl implements GameView {
                 bt.setPrefSize(40, 40);
                 bt.setMinSize(40, 40);
                 bt.setMaxSize(40, 40);
-                this.grid.add(bt, j, i);
+                this.grid.add(bt, i, j);
                 this.gridMap.put(bt, pos);
 
                 bt.setOnAction(e -> {
