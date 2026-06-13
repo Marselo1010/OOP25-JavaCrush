@@ -30,13 +30,11 @@ public class RemoveType extends AbstractPowerUp {
                     current = new Position(x, y);
 
                     if (board.getCellAt(current).isPresent() && board.getCellAt(current).get().getType() == type.getType()) {
-                        resultSet.clear();
                         resultSet.add(current);
-                        this.addMatches(new MatchImpl(resultSet, type.getType()));
                     }
                 }
             }
-
+            this.addMatches(new MatchImpl(resultSet, type.getType()));
             return true;
         }
 

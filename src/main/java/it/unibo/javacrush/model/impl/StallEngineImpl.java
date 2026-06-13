@@ -106,6 +106,7 @@ public class StallEngineImpl implements StallEngine {
                     resultList.add(manager.findMatchesAt(tmp, p));
                 }
                 this.swapUp(tmp, p);
+
             }
         }
 
@@ -122,36 +123,50 @@ public class StallEngineImpl implements StallEngine {
     public Set<Position> getHint(final Board board) {
         final Set<Position> resultSet = new HashSet<>();
         final Match currentMatch;
+        boolean found = false;
 
         if (!this.isStall(board)) {
             currentMatch = this.possibleMatches(board).get(this.ran.nextInt(this.possibleMatches(board).size()));
 
             for (final var pos : currentMatch.getPositions()) {
-                if (board.getCellAt(pos).get().getType() != currentMatch.getType()) {
+                if (board.getCellAt(pos).get().getType() != currentMatch.getType() && !found) {
 
                     if (manager.findMatchesAt(this.swapRight(board, pos), pos) != null
-                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()
+                        && manager.findMatchesAt(board, pos).equals(currentMatch)
+                        && !found) {
                         resultSet.add(new Position(pos.x() + 1, pos.y()));
+                        found = true;
                     }
                     this.swapRight(board, pos);
 
                     if (manager.findMatchesAt(this.swapLeft(board, pos), pos) != null
-                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()
+                        && manager.findMatchesAt(board, pos).equals(currentMatch)
+                        && !found) {
                         resultSet.add(new Position(pos.x() - 1, pos.y()));
+                        found = true;
                     }
                     this.swapLeft(board, pos);
 
                     if (manager.findMatchesAt(this.swapDown(board, pos), pos) != null
-                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()
+                        && manager.findMatchesAt(board, pos).equals(currentMatch)
+                        && !found) {
                         resultSet.add(new Position(pos.x(), pos.y() + 1));
+                        found = true;
                     }
                     this.swapDown(board, pos);
 
                     if (manager.findMatchesAt(this.swapUp(board, pos), pos) != null
-                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()) {
+                        && manager.findMatchesAt(board, pos).getType() == currentMatch.getType()
+                        && manager.findMatchesAt(board, pos).equals(currentMatch)
+                        && !found) {
                         resultSet.add(new Position(pos.x(), pos.y() - 1));
+                        found = true;
                     }
                     this.swapUp(board, pos);
+
                 } else {
                     resultSet.add(pos);
                 }

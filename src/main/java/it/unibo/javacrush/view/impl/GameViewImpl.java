@@ -162,7 +162,7 @@ public class GameViewImpl implements GameView {
                 bt.setStyle(SELECT_STYLE);
             }
 
-            if (this.hint.contains(pos)) {
+            if (!this.isAnimating && this.hint.contains(pos)) {
                 bt.setStyle("-fx-background-color: green; -fx-border-width: 5px; -fx-border-radius: 5;");
             }
         }
@@ -388,6 +388,7 @@ public class GameViewImpl implements GameView {
         if (state == GameState.WON) {
 
             final Alert alert = new Alert(AlertType.INFORMATION);
+            this.ser.cancel();
             alert.setTitle("VICTORY!!");
             alert.setContentText("Congratulations! You have won the game.");
             alert.showAndWait();
@@ -397,6 +398,7 @@ public class GameViewImpl implements GameView {
         } else if (state == GameState.LOST) {
 
             final Alert alert = new Alert(AlertType.ERROR);
+            this.ser.cancel();
             alert.setTitle("GAME OVER");
             alert.setContentText("Sorry! You have lost the game.");
             alert.showAndWait();
@@ -411,7 +413,10 @@ public class GameViewImpl implements GameView {
         final Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("STALL");
         alert.setContentText("The board were in stall, the cells have been refreshed.");
+        alert.setOnShown(e -> this.isAnimating = true);
+        alert.setOnHidden(e -> this.isAnimating = false);
         alert.showAndWait();
+        this.ser.restart();
     }
 
     private Service<Integer> initService() {
