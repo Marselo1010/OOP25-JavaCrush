@@ -15,6 +15,7 @@ public class CrazyGravity implements GravityEngine {
     private GravityEngine currentStrategy;
     private final Random random = new Random();
     private final List<GravityEngine> strategies;
+    private boolean changeDirectionNext = false;
 
     public CrazyGravity(final List<GravityEngine> strategies) {
         if(strategies == null || strategies.isEmpty()) {
@@ -29,9 +30,14 @@ public class CrazyGravity implements GravityEngine {
 
     @Override
     public Boolean applyGravity(final Board board) {
+        if(changeDirectionNext) {
+            this.currentStrategy = getRandomStrategy();
+        }
+        changeDirectionNext = false;
+
         final boolean moved = currentStrategy.applyGravity(board);
         if(!moved) {
-            this.currentStrategy = getRandomStrategy();
+            this.changeDirectionNext = true;
         }
         return moved;
     }
