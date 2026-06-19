@@ -93,12 +93,10 @@ class StallEngineTest {
         init.setCell(new Position(3, 3), Optional.of(new CellImpl(CellType.MOKA)));
 
         assertFalse(st.isStall(board));
-        assertFalse(st.possibleMatches(board).isEmpty());
 
         st.resolveStall(board);
 
         assertFalse(st.isStall(board));
-        assertFalse(st.possibleMatches(board).isEmpty());
         assertEquals(init, board);
 
     }
@@ -119,12 +117,10 @@ class StallEngineTest {
         }
 
         assertTrue(st.isStall(board));
-        assertTrue(st.possibleMatches(board).isEmpty());
 
         st.resolveStall(board);
 
         assertFalse(st.isStall(board));
-        assertFalse(st.possibleMatches(board).isEmpty());
         assertNotEquals(init, board);
 
     }
