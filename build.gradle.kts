@@ -49,6 +49,7 @@ dependencies {
     // Mockito framework for testing
     testImplementation("org.mockito:mockito-core:5.14.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
+    testRuntimeOnly("org.mockito:mockito-core:5.14.2")
 
     // The BOM (Bill of Materials) synchronizes all the versions of Junit coherently.
     testImplementation(platform("org.junit:junit-bom:6.0.3"))
@@ -61,6 +62,10 @@ dependencies {
 tasks.withType<Test>().configureEach {
     // Enables JUnit 5 Jupiter module
     useJUnitPlatform()
+
+    // Enable dynamic agent loading for Mockito to work properly
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+
     testLogging {
         // Display all events
         events(*org.gradle.api.tasks.testing.logging.TestLogEvent.entries.toTypedArray())
