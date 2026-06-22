@@ -304,7 +304,7 @@ public class GameViewImpl implements GameView {
                             if (!isFalling) {
                                 timeline.stop();
                                 this.isAnimating = false;
-                                Platform.runLater(this::timerTask);
+                                Platform.runLater(this::timer);
                                 Platform.runLater(this::checkStateGame);
 
                             }
@@ -398,7 +398,7 @@ public class GameViewImpl implements GameView {
         this.quitBox.getChildren().add(quit);
         this.root.setLeft(quitBox);
 
-        this.timerTask();
+        this.timer();
         this.updateView();
     }
 
@@ -471,7 +471,7 @@ public class GameViewImpl implements GameView {
         };
     }
 
-    private void timerTask() {
+    private void timer() {
 
         if (!this.isAnimating) {
             this.hint.clear();
