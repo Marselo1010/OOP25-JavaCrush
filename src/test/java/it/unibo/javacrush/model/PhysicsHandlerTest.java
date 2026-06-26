@@ -21,8 +21,8 @@ import it.unibo.javacrush.model.impl.gravity.UpwardGravity;
 
 class PhysicsHandlerTest {
 
-    private static final int ROWS = 3;
-    private static final int COLS = 3;
+    private static final int ROWS = 8;
+    private static final int COLS = 8;
     private Board board;
     private PhysicsHandler physics;
 

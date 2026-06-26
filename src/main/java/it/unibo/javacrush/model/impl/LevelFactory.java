@@ -19,13 +19,13 @@ import it.unibo.javacrush.powerup.impl.PowerUpManagerImpl;
  */
 public final class LevelFactory {
 
-    private static final int ROWS_EASY = 12;
-    private static final int ROWS_MEDIUM = 10;
+    private static final int ROWS_EASY = 10;
+    private static final int ROWS_MEDIUM = 9;
     private static final int ROWS_HARD = 8;
     private static final int ROWS_VERY_HARD = 6;
 
-    private static final int COLS_EASY = 12;
-    private static final int COLS_MEDIUM = 10;
+    private static final int COLS_EASY = 10;
+    private static final int COLS_MEDIUM = 9;
     private static final int COLS_HARD = 8;
     private static final int COLS_VERY_HARD = 3;
 
@@ -77,7 +77,7 @@ public final class LevelFactory {
     public static LevelConfig createLevel(final int levelNumber) {
         return switch (levelNumber) {
             case LEVEL_1 -> new LevelConfig(COLS_EASY, ROWS_EASY, MOVES_EASY,
-                Map.of(CellType.getRandomType(), GOAL_EASY),
+                Map.of(CellType.getRandomType(), GOAL_EASY, CellType.MILK, GOAL_EASY),
                 new DownwardGravity(),
                 new PowerUpManagerImpl());
 
