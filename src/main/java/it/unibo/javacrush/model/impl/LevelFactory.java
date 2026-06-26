@@ -77,17 +77,17 @@ public final class LevelFactory {
     public static LevelConfig createLevel(final int levelNumber) {
         return switch (levelNumber) {
             case LEVEL_1 -> new LevelConfig(COLS_EASY, ROWS_EASY, MOVES_EASY,
-                Map.of(CellType.getRandomType(), GOAL_EASY, CellType.MILK, GOAL_EASY),
-                new DownwardGravity(),
-                new PowerUpManagerImpl());
-
-            case LEVEL_2 -> new LevelConfig(COLS_EASY, ROWS_EASY, MOVES_MEDIUM,
                 Map.of(CellType.getRandomType(), GOAL_EASY),
                 new DownwardGravity(),
                 new PowerUpManagerImpl());
 
+            case LEVEL_2 -> new LevelConfig(COLS_EASY, ROWS_EASY, MOVES_MEDIUM,
+                Map.of(CellType.MILK, GOAL_EASY, CellType.SPOON, GOAL_MEDIUM),
+                new DownwardGravity(),
+                new PowerUpManagerImpl());
+
             case LEVEL_3 -> new LevelConfig(COLS_MEDIUM, ROWS_MEDIUM, MOVES_HARD,
-                Map.of(CellType.getRandomType(), GOAL_MEDIUM),
+                Map.of(CellType.CUP, GOAL_MEDIUM, CellType.COFFEE_BEAN, GOAL_MEDIUM),
                 new DownwardGravity(),
                 new PowerUpManagerImpl());
 
